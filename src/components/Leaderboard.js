@@ -1,16 +1,25 @@
 import React from 'react';
+import '../styles/leaderboard.css';
 
 function Leaderboard({ teams }) {
   return (
     <div>
-      <h2>Leaderboard</h2>
-      <ul>
-        {teams.map((team, index) => (
-          <li key={index}>
-            {team.name} - Rank: {index + 1}
-          </li>
-        ))}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Team</th>
+          </tr>
+        </thead>
+        <tbody>
+          {teams.map((team, index) => (
+            <tr key={index}>
+              <td>{index + 1}</td>
+              <td>{team.name}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

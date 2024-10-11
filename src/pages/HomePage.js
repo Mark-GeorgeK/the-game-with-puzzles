@@ -13,7 +13,7 @@ function HomePage() {
 
   return (
     <div>
-      <h1>Welcome to the Puzzle Game</h1>
+      <h1>Welcome to The-Game-With-Puzzles</h1>
       <PlayerForm onStartGame={handleStartGame} />
     </div>
   );

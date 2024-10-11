@@ -18,7 +18,7 @@ function Puzzle({ puzzle, onCheckAnswer }) {
           value={answer} 
           onChange={(e) => setAnswer(e.target.value)} 
           placeholder="Your answer" 
-          required 
+          // required 
         />
         <button type="submit">Check Answer</button>
       </form>

@@ -6,9 +6,9 @@ function PlayerForm({ onStartGame }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (player1 && player2) {
+    // if (player1 && player2) {
       onStartGame(player1, player2);
-    }
+    // }
   };
 
   return (
@@ -18,14 +18,14 @@ function PlayerForm({ onStartGame }) {
         placeholder="Player 1 Name" 
         value={player1} 
         onChange={(e) => setPlayer1(e.target.value)} 
-        required 
+        // required 
       />
       <input 
         type="text" 
         placeholder="Player 2 Name" 
         value={player2} 
         onChange={(e) => setPlayer2(e.target.value)} 
-        required 
+        // required 
       />
       <button type="submit">Start Game</button>
     </form>
