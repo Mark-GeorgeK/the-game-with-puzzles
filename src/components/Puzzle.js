@@ -1,29 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
+import puzzles from '../services/puzzleService';
 
-function Puzzle({ puzzle, onCheckAnswer }) {
-  const [answer, setAnswer] = React.useState('');
+const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
+    const [answer, setAnswer] = useState('');
+    const [isCorrect, setIsCorrect] = useState(false);
+    const puzzle = puzzles.find(p => p.id === puzzleId);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onCheckAnswer(answer);
-    setAnswer(''); // Clear answer after submission
-  };
+    const handleCheckAnswer = () => {
+        if (answer.toLowerCase() === puzzle.answer.toLowerCase()) {
+            setIsCorrect(true);
+            onPuzzleSolved();  // Trigger the next puzzle logic
+        } else {
+            setIsCorrect(false);
+        }
+    };
 
-  return (
-    <div>
-      <img src={puzzle.imageUrl} alt="Puzzle" />
-      <form onSubmit={handleSubmit}>
-        <input 
-          type="text" 
-          value={answer} 
-          onChange={(e) => setAnswer(e.target.value)} 
-          placeholder="Your answer" 
-          // required 
-        />
-        <button type="submit">Check Answer</button>
-      </form>
-    </div>
-  );
-}
+    return (
+        <div>
+            <img src={puzzle.imageUrl} alt="Puzzle" />
+            <input
+                type="text"
+                value={answer}
+                onChange={(e) => setAnswer(e.target.value)}
+                placeholder="Enter your answer"
+            />
+            <button onClick={handleCheckAnswer}>Check Answer</button>
+            {isCorrect && <p>Correct! Moving to the next puzzle...</p>}
+            {!isCorrect && answer && <p>Incorrect. Try again.</p>}
+        </div>
+    );
+};
 
 export default Puzzle;

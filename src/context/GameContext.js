@@ -1,33 +1,29 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState } from 'react';
+import puzzles from '../services/puzzleService';  // Import the puzzle list
 
-const GameContext = createContext();
+export const GameContext = createContext();
 
 export const GameProvider = ({ children }) => {
-  const [players, setPlayers] = useState([]);
-  const [currentPuzzleIndex, setCurrentPuzzleIndex] = useState(0);
-  const [teamResults, setTeamResults] = useState([]);
+    const [teamToken, setTeamToken] = useState(null);
+    const [currentPuzzleIndex, setCurrentPuzzleIndex] = useState(0);  // Track the current puzzle
+    const [shuffledPuzzles, setShuffledPuzzles] = useState([]);      // Store shuffled puzzles
 
-  const startGame = (player1, player2) => {
-    setPlayers([{ name: player1 }, { name: player2 }]);
-    setCurrentPuzzleIndex(0);
-    setTeamResults([]);
-  };
+    // Function to shuffle puzzles for each team
+    const shufflePuzzles = () => {
+        const shuffled = [...puzzles].sort(() => Math.random() - 0.5);  // Shuffle puzzles
+        setShuffledPuzzles(shuffled);
+    };
 
-  const nextPuzzle = () => {
-    setCurrentPuzzleIndex((prevIndex) => prevIndex + 1);
-  };
-
-  const updateResults = (result) => {
-    setTeamResults((prevResults) => [...prevResults, result]);
-  };
-
-  return (
-    <GameContext.Provider value={{ players, currentPuzzleIndex, teamResults, startGame, nextPuzzle, updateResults }}>
-      {children}
-    </GameContext.Provider>
-  );
-};
-
-export const useGameContext = () => {
-  return useContext(GameContext);
+    return (
+        <GameContext.Provider value={{
+            teamToken,
+            setTeamToken,
+            currentPuzzleIndex,
+            setCurrentPuzzleIndex,
+            shuffledPuzzles,
+            shufflePuzzles
+        }}>
+            {children}
+        </GameContext.Provider>
+    );
 };

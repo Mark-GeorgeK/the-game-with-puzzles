@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import PuzzlePage from './pages/PuzzlePage';
 import LeaderboardPage from './pages/LeaderboardPage';
+import './App.css';
 
 function App() {
   return (

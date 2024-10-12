@@ -1,24 +1,46 @@
-import React from 'react';
-import Puzzle from '../components/Puzzle';
+import React, { useContext, useEffect } from 'react';
+import { GameContext } from '../context/GameContext';
 import { useNavigate } from 'react-router-dom';
+import Puzzle from '../components/Puzzle';
+import { db } from '../firebaseConfig';
+import { doc, updateDoc, increment } from 'firebase/firestore';
 
-function PuzzlePage() {
-  const navigate = useNavigate();
-  const puzzle = { imageUrl: 'https://via.placeholder.com/300' }; // Replace with actual puzzle data
+const PuzzlePage = () => {
+    const { teamToken, currentPuzzleIndex, setCurrentPuzzleIndex, shuffledPuzzles } = useContext(GameContext);
+    const navigate = useNavigate();
 
-  const checkAnswer = (answer) => {
-    // Logic to check if the answer is correct
-    console.log(`Checking answer: ${answer}`);
-    // If correct, move to the next puzzle or update state
-    navigate('/leaderboard');
-  };
+    useEffect(() => {
+        if (shuffledPuzzles.length === 0) {
+            navigate('/'); // Redirect to home if no puzzles are available
+        }
+    }, [shuffledPuzzles, navigate]);
 
-  return (
-    <div>
-      <h2>Current Puzzle</h2>
-      <Puzzle puzzle={puzzle} onCheckAnswer={checkAnswer} />
-    </div>
-  );
-}
+    const handleNextPuzzle = async () => {
+        const nextIndex = currentPuzzleIndex + 1;
+
+        const teamRef = doc(db, 'teams', teamToken);
+        await updateDoc(teamRef, {
+            puzzlesSolved: increment(1)
+        });
+
+        if (nextIndex >= shuffledPuzzles.length) {
+            navigate('/leaderboard');
+        } else {
+            setCurrentPuzzleIndex(nextIndex);
+        }
+    };
+
+    const currentPuzzle = shuffledPuzzles[currentPuzzleIndex];
+
+    return (
+        <div>
+            {currentPuzzle ? (
+                <Puzzle puzzleId={currentPuzzle.id} onPuzzleSolved={handleNextPuzzle} />
+            ) : (
+                <p>Loading puzzle...</p>
+            )}
+        </div>
+    );
+};
 
 export default PuzzlePage;
