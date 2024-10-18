@@ -30,7 +30,7 @@ const PlayerForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="form-container">
             <input
                 type="text"
                 placeholder="Player 1 Name"

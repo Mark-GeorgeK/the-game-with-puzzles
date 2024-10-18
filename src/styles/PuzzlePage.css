@@ -1,0 +1,67 @@
+.puzzle-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.puzzle-image {
+    max-width: 100%;  /* Image scales down to fit the screen width */
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.puzzle-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 400px; /* Limiting form width */
+}
+
+.puzzle-input {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    border-bottom: 4px solid transparent;  /* Initial transparent border */
+    font-size: 1rem;
+    text-align: center;  /* Center the text in the input */
+    transition: border-color 0.3s ease;
+}
+
+.puzzle-input.correct {
+    border-bottom-color: green;  /* Green border when correct */
+}
+
+.puzzle-input.incorrect {
+    border-bottom-color: red;  /* Red border when incorrect */
+}
+
+.puzzle-button {
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+.puzzle-button:disabled {
+    background-color: grey;
+    cursor: not-allowed;  /* Shows a 'not allowed' cursor */
+    opacity: 0.6;  /* Makes the button look dimmed */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .puzzle-image {
+        width: 90%;  /* Adjust image size for mobile */
+        height: auto;
+    }
+
+    .puzzle-input, .puzzle-button {
+        width: 90%;  /* Reduce input and button width on smaller screens */
+    }
+}

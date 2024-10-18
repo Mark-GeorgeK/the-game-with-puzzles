@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Puzzle from '../components/Puzzle';
 import { db } from '../firebaseConfig';
 import { doc, updateDoc, increment } from 'firebase/firestore';
+import '../styles/PuzzlePage.css'
 
 const PuzzlePage = () => {
     const { teamToken, currentPuzzleIndex, setCurrentPuzzleIndex, shuffledPuzzles } = useContext(GameContext);

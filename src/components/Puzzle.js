@@ -6,27 +6,47 @@ const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
     const [isCorrect, setIsCorrect] = useState(false);
     const puzzle = puzzles.find(p => p.id === puzzleId);
 
-    const handleCheckAnswer = () => {
-        if (answer.toLowerCase() === puzzle.answer.toLowerCase()) {
+    const handleCheckAnswer = (input) => {
+        if (input.toLowerCase() === puzzle.answer.toLowerCase()) {
             setIsCorrect(true);
-            onPuzzleSolved();  // Trigger the next puzzle logic
         } else {
             setIsCorrect(false);
         }
     };
 
+    const handleSubmit = (e) => {
+        e.preventDefault(); // Prevent page refresh
+        if (isCorrect) {
+            onPuzzleSolved();  // Trigger the next puzzle logic
+            setAnswer('');
+        }
+    };
+
+    const handleChange = (e) => {
+        const input = e.target.value;
+        setAnswer(input);
+        handleCheckAnswer(input); // Check as the user types
+    };
+
     return (
-        <div>
-            <img src={puzzle.imageUrl} alt="Puzzle" />
-            <input
-                type="text"
-                value={answer}
-                onChange={(e) => setAnswer(e.target.value)}
-                placeholder="Enter your answer"
-            />
-            <button onClick={handleCheckAnswer}>Check Answer</button>
-            {isCorrect && <p>Correct! Moving to the next puzzle...</p>}
-            {!isCorrect && answer && <p>Incorrect. Try again.</p>}
+        <div className="puzzle-container">
+            <img src={puzzle.imageUrl} alt="Puzzle" className="puzzle-image" />
+            <form onSubmit={handleSubmit} className="puzzle-form">
+                <input
+                    type="text"
+                    value={answer}
+                    onChange={handleChange}
+                    placeholder="Enter your answer"
+                    className={`puzzle-input ${answer ? (isCorrect ? 'correct' : 'incorrect') : ''}`}
+                />
+                <button
+                    type="submit"
+                    className="puzzle-button"
+                    disabled={!answer | !isCorrect}
+                >
+                    Next Puzzle
+                </button>
+            </form>
         </div>
     );
 };

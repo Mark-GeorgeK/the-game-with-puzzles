@@ -1,0 +1,47 @@
+body {
+  margin: 0; /* Remove default body margin */
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scrollbar on the body */
+}
+
+.leaderboard-container {
+  padding: 20px;
+  margin: 0 auto; /* Center container */
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds viewport */
+  height: calc(100vh - 40px); /* Adjust height to allow scrolling */
+  position: relative; /* Ensure proper positioning */
+}
+
+.leaderboard-title {
+  font-family: 'Courier New', Courier, monospace;
+  text-align: center; /* Center the title */
+  margin-bottom: 20px; /* Space below the title */
+  font-size: 2rem;
+  z-index: 1; /* Ensures the text appears above the background overlay */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+thead tr {
+  background-color: #62a6ef;
+  color: white;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+thead th, tbody td {
+  padding: 10px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #e0e0e091;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: white;
+}

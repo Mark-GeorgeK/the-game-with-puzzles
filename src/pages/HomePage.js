@@ -1,10 +1,11 @@
 import React from 'react';
 import PlayerForm from '../components/PlayerForm';
+import '../styles/HomePage.css'
 
 function HomePage() {
   return (
-    <div>
-      <h2>Welcome to The-Game-With-Puzzles</h2>
+    <div className="home-container">
+      <h2 className="title">Welcome to The Game <br></br>With Puzzles</h2>
       <PlayerForm />
     </div>
   );
