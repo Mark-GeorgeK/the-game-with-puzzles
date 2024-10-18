@@ -1,14 +1,15 @@
 body {
   margin: 0; /* Remove default body margin */
   padding: 0;
-  overflow-x: hidden; /* Prevent horizontal scrollbar on the body */
 }
 
 .leaderboard-container {
   padding: 20px;
   margin: 0 auto; /* Center container */
+  overflow-x: auto;
   overflow-y: auto; /* Enable vertical scrolling if content exceeds viewport */
   height: calc(100vh - 40px); /* Adjust height to allow scrolling */
+  width: calc(100vw - 40px); /* Adjust height to allow scrolling */
   position: relative; /* Ensure proper positioning */
 }
 
@@ -21,9 +22,9 @@ body {
 }
 
 table {
-  width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;
+  table-layout: auto; /* Automatically adjust column width based on content */
+  min-width: 400px; /* Ensures table spans the full width of the container */
 }
 
 thead tr {
@@ -36,6 +37,11 @@ thead th, tbody td {
   padding: 10px;
   text-align: center;
   white-space: nowrap;
+  min-width: max-content;
+}
+
+.team-name {
+  text-align: left;
 }
 
 tbody tr:nth-child(even) {

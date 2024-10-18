@@ -28,7 +28,7 @@ const Leaderboard = () => {
                 {teams.map((team, index) => (
                     <tr key={team.id}>
                         <td>{index + 1}</td>
-                        <td>{team.player1} - {team.player2}</td>
+                        <td className='team-name'>{team.player1} - {team.player2}</td>
                         <td>{team.puzzlesSolved}</td>
                     </tr>
                 ))}
