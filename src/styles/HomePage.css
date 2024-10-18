@@ -17,12 +17,25 @@ html, body {
   align-items: center;
   height: 100vh;
   width: 100vw;
-  text-align: center;
   background-image: url("../../public/img/Designer.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  position: relative;
+}
+
+.content-wrapper {
+  background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white background */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* Shadow for window effect */
+  padding: 40px;
+  border-radius: 10px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: auto; /* Ensure scroll if content overflows */
+  display: flex;              /* Use flexbox */
+  flex-direction: column;     /* Stack items vertically */
+  align-items: center;        /* Center all elements horizontally */
+  z-index: 1;
+  text-align: center;
 }
 
 .home-container::before {
@@ -37,14 +50,14 @@ html, body {
 }
 
 .title {
-    font-family: 'Luckiest Guy', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    color: white; /* Make the title text white */
-    font-size: 3rem;
-    margin-bottom: 20px;
-    z-index: 1; /* Ensures the text appears above the background overlay */
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); /* Shadow to make the text stand out */
-  }
-  
+  font-family: monospace;
+  color: grey; /* Use a darker color for contrast with white background */
+  font-size: 3rem;
+  margin-bottom: 20px;
+  text-shadow: none;
+  max-width: 400px;
+  margin-bottom: 0px;
+}
 
 .form-container {
   display: flex;
@@ -104,5 +117,10 @@ button:hover {
 
   button {
     font-size: 0.9rem;
+  }
+
+  .content-wrapper {
+    padding: 30px;
+    max-width: 95vw;
   }
 }

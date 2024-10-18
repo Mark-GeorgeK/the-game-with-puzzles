@@ -5,8 +5,10 @@ import '../styles/HomePage.css'
 function HomePage() {
   return (
     <div className="home-container">
-      <h2 className="title">Welcome to The Game <br></br>With Puzzles</h2>
-      <PlayerForm />
+      <div className="content-wrapper">
+        <h2 className="title">Welcome to The Game With Puzzles</h2>
+        <PlayerForm />
+      </div>
     </div>
   );
 }
