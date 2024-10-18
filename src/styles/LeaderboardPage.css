@@ -24,6 +24,7 @@ body {
 table {
   border-collapse: collapse;
   table-layout: auto; /* Automatically adjust column width based on content */
+  width: 100%;
   min-width: 400px; /* Ensures table spans the full width of the container */
 }
 
