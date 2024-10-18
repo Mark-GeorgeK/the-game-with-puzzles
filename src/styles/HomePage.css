@@ -18,7 +18,7 @@ html, body {
   height: 100vh;
   width: 100vw;
   text-align: center;
-  background-image: url("C:/Users/v-markaziz/Desktop/Designer.jpeg"); /* Background image path */
+  background-image: url("../../public/img/Designer.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -37,7 +37,7 @@ html, body {
 }
 
 .title {
-    font-family: 'Luckiest Guy', cursive;
+    font-family: 'Luckiest Guy', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     color: white; /* Make the title text white */
     font-size: 3rem;
     margin-bottom: 20px;
@@ -65,22 +65,28 @@ input {
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2); /* Add subtle shadow to input fields */
   }
   
-  button {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    width: 100%; /* Make button full width relative to its parent */
-    box-sizing: border-box; /* Ensure padding is included in width calculation */
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2); /* Add subtle shadow to buttons */
-  }
-  
-  button:hover {
-    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.4); /* Enhance shadow on hover for effect */
-  }  
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%; /* Make button full width relative to its parent */
+  box-sizing: border-box; /* Ensure padding is included in width calculation */
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2); /* Add subtle shadow to buttons */
+}
+
+button:hover {
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.4); /* Enhance shadow on hover for effect */
+}  
+
+.register-button:disabled {
+  background-color: grey;
+  cursor: not-allowed;  /* Shows a 'not allowed' cursor */
+  opacity: 0.6;  /* Makes the button look dimmed */
+}
 
 /* Responsive design */
 @media (max-width: 768px) {

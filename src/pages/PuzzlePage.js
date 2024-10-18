@@ -11,10 +11,10 @@ const PuzzlePage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (shuffledPuzzles.length === 0) {
-            navigate('/'); // Redirect to home if no puzzles are available
+        if (shuffledPuzzles.length === 0 || currentPuzzleIndex >= shuffledPuzzles.length) {
+            navigate('/leaderboard');
         }
-    }, [shuffledPuzzles, navigate]);
+    }, [shuffledPuzzles, currentPuzzleIndex, navigate]);
 
     const handleNextPuzzle = async () => {
         const nextIndex = currentPuzzleIndex + 1;
@@ -24,10 +24,9 @@ const PuzzlePage = () => {
             puzzlesSolved: increment(1)
         });
 
+        setCurrentPuzzleIndex(nextIndex);
         if (nextIndex >= shuffledPuzzles.length) {
             navigate('/leaderboard');
-        } else {
-            setCurrentPuzzleIndex(nextIndex);
         }
     };
 
