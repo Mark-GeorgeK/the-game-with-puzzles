@@ -3,50 +3,58 @@ import { GameContext } from '../context/GameContext';
 import { db } from '../firebaseConfig';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
-import { useNavigate } from 'react-router-dom';  // Assuming react-router-dom is used
+import { useNavigate } from 'react-router-dom';
 
 const PlayerForm = () => {
     const [player1, setPlayer1] = useState('');
     const [player2, setPlayer2] = useState('');
-    const { setTeamToken, shufflePuzzles } = useContext(GameContext);
+    const { teamToken, setTeamToken, teamName, setTeamName, shufflePuzzles } = useContext(GameContext);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const teamToken = uuidv4();  // Generate unique token for team
-        setTeamToken(teamToken);     // Save token in global context
-        shufflePuzzles();            // Shuffle the puzzle list for the team
+        const generatedToken = uuidv4();
+        setTeamToken(generatedToken);
+        setTeamName(`${player1} - ${player2}`);
+        shufflePuzzles();
 
-        // Save team info to Firestore
-        await setDoc(doc(db, 'teams', teamToken), {
+        await setDoc(doc(db, 'teams', generatedToken), {
             player1,
             player2,
-            teamToken,
-            puzzlesSolved: 0,       // Start with 0 puzzles solved
+            generatedToken,
+            puzzlesSolved: 0,
             timestamp: serverTimestamp()
         });
-
-        navigate('/puzzle');  // Redirect to the puzzle page
     };
 
     return (
-        <form onSubmit={handleSubmit} className="form-container">
-            <input
-                type="text"
-                placeholder="Player 1 Name"
-                value={player1}
-                onChange={(e) => setPlayer1(e.target.value)}
-                required
-            />
-            <input
-                type="text"
-                placeholder="Player 2 Name"
-                value={player2}
-                onChange={(e) => setPlayer2(e.target.value)}
-                required
-            />
-            <button type="submit">Start Game</button>
-        </form>
+        <>
+            {teamToken ? (
+                <div className="form-container">
+                    <span style={{fontFamily: 'monospace', fontSize: 'large'}}>{`Hey, ${teamName}`}</span>
+                    <p className="note">Hit that Play button to start your timer. Use your time wisely.</p>
+                    <button type="button" onClick={() => navigate('/puzzle')}>Play</button>
+                </div>
+            ) : (
+                <form onSubmit={handleSubmit} className="form-container">
+                    <input
+                        type="text"
+                        placeholder="Player 1 Name"
+                        value={player1}
+                        onChange={(e) => setPlayer1(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="Player 2 Name"
+                        value={player2}
+                        onChange={(e) => setPlayer2(e.target.value)}
+                        required
+                    />
+                    <button type="submit">Register</button>
+                </form>
+            )}
+        </>
     );
 };
 

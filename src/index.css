@@ -8,8 +8,8 @@ body {
   height: 100%;
   margin: 0;
   display: flex;
-  justify-content: center; /* Centers horizontally */
-  align-items: center; /* Centers vertically */
+  justify-content: center;
+  align-items: center;
 }
 
 #root {
@@ -21,7 +21,7 @@ body {
 }
 
 * {
-  box-sizing: border-box; /* Ensure padding and borders don't affect width/height calculations */
+  box-sizing: border-box;
 }
 
 code {

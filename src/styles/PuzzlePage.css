@@ -7,7 +7,7 @@
 }
 
 .puzzle-image {
-    max-width: 100%;  /* Image scales down to fit the screen width */
+    max-width: 100%;
     height: auto;
     margin-bottom: 20px;
 }
@@ -17,25 +17,25 @@
     flex-direction: column;
     gap: 10px;
     width: 100%;
-    max-width: 400px; /* Limiting form width */
+    max-width: 400px;
 }
 
 .puzzle-input {
     padding: 10px;
     border-radius: 5px;
     border: none;
-    border-bottom: 4px solid transparent;  /* Initial transparent border */
+    border-bottom: 4px solid transparent;
     font-size: 1rem;
-    text-align: center;  /* Center the text in the input */
+    text-align: center;
     transition: border-color 0.3s ease;
 }
 
 .puzzle-input.correct {
-    border-bottom-color: green;  /* Green border when correct */
+    border-bottom-color: green;
 }
 
 .puzzle-input.incorrect {
-    border-bottom-color: red;  /* Red border when incorrect */
+    border-bottom-color: red;
 }
 
 .puzzle-button {
@@ -50,18 +50,17 @@
 
 .puzzle-button:disabled {
     background-color: grey;
-    cursor: not-allowed;  /* Shows a 'not allowed' cursor */
-    opacity: 0.6;  /* Makes the button look dimmed */
+    cursor: not-allowed;
+    opacity: 0.6;
 }
 
-/* Responsive design for smaller screens */
 @media (max-width: 768px) {
     .puzzle-image {
-        width: 90%;  /* Adjust image size for mobile */
+        width: 90%;
         height: auto;
     }
 
     .puzzle-input, .puzzle-button {
-        width: 90%;  /* Reduce input and button width on smaller screens */
+        width: 90%;
     }
 }

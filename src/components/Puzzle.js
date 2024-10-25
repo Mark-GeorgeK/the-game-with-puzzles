@@ -15,9 +15,9 @@ const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
     };
 
     const handleSubmit = (e) => {
-        e.preventDefault(); // Prevent page refresh
+        e.preventDefault();
         if (isCorrect) {
-            onPuzzleSolved();  // Trigger the next puzzle logic
+            onPuzzleSolved();
             setAnswer('');
         }
     };
@@ -25,12 +25,12 @@ const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
     const handleChange = (e) => {
         const input = e.target.value;
         setAnswer(input);
-        handleCheckAnswer(input); // Check as the user types
+        handleCheckAnswer(input);
     };
 
     return (
         <div className="puzzle-container">
-            <img src={puzzle.imageUrl} alt="Puzzle" className="puzzle-image" />
+            <img src={puzzle.imageUrl.trim().startsWith('http') ? puzzle.imageUrl : process.env.PUBLIC_URL + puzzle.imageUrl} alt="Puzzle" className="puzzle-image"/>
             <form onSubmit={handleSubmit} className="puzzle-form">
                 <input
                     type="text"
@@ -42,7 +42,7 @@ const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
                 <button
                     type="submit"
                     className="puzzle-button"
-                    disabled={!answer | !isCorrect}
+                    disabled={!answer || !isCorrect}
                 >
                     Next Puzzle
                 </button>

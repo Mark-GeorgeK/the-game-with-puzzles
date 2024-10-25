@@ -1,4 +1,3 @@
-/* Center container vertically and horizontally */
 .not-found-container {
     display: flex;
     flex-direction: column;

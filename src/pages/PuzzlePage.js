@@ -11,9 +11,8 @@ const PuzzlePage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (shuffledPuzzles.length === 0 || currentPuzzleIndex >= shuffledPuzzles.length) {
-            navigate('/leaderboard');
-        }
+        if (shuffledPuzzles.length === 0) navigate('/');
+        if (currentPuzzleIndex >= shuffledPuzzles.length) navigate('/leaderboard');
     }, [shuffledPuzzles, currentPuzzleIndex, navigate]);
 
     const handleNextPuzzle = async () => {
