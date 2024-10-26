@@ -38,11 +38,13 @@ const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
                     onChange={handleChange}
                     placeholder="Enter your answer"
                     className={`puzzle-input ${answer ? (isCorrect ? 'correct' : 'incorrect') : ''}`}
+                    style={{ margin: 0 }}
                 />
                 <button
                     type="submit"
                     className="puzzle-button"
                     disabled={!answer || !isCorrect}
+                    style={{ margin: 0 }}
                 >
                     Next Puzzle
                 </button>
