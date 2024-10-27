@@ -1,17 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import puzzles from '../services/puzzleService';
 
 const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
     const [answer, setAnswer] = useState('');
     const [isCorrect, setIsCorrect] = useState(false);
+    const [randomImage, setRandomImage] = useState(null);
+
     const puzzle = puzzles.find(p => p.id === puzzleId);
 
-    const handleCheckAnswer = (input) => {
-        if (input.toLowerCase() === puzzle.answer.toLowerCase()) {
-            setIsCorrect(true);
-        } else {
-            setIsCorrect(false);
+    useEffect(() => {
+        if (puzzle.type === 'array') {
+            const randomData = puzzle.data[Math.floor(Math.random() * puzzle.data.length)];
+            setRandomImage(randomData);
         }
+    }, [puzzle]);
+
+    const handleCheckAnswer = (input) => {
+        const correctAnswer = 
+            puzzle.type === 'array' ? randomImage?.answer :
+            puzzle.type === 'text' || puzzle.type === 'image' ? puzzle.data.answer :
+            '';
+
+        setIsCorrect(input.toLowerCase() === correctAnswer.toLowerCase());
     };
 
     const handleSubmit = (e) => {
@@ -30,7 +40,26 @@ const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
 
     return (
         <div className="puzzle-container">
-            <img src={puzzle.imageUrl.trim().startsWith('http') ? puzzle.imageUrl : process.env.PUBLIC_URL + puzzle.imageUrl} alt="Puzzle" className="puzzle-image"/>
+            {puzzle.type === 'array' && randomImage && (
+                <img
+                    src={randomImage.imageUrl.trim().startsWith('http') ? randomImage.imageUrl : process.env.PUBLIC_URL + randomImage.imageUrl}
+                    alt="Puzzle"
+                    className="puzzle-image"
+                />
+            )}
+            {puzzle.type === 'text' && (
+                <div className="puzzle-text">
+                    {puzzle.data.clue}
+                </div>
+            )}
+            {puzzle.type === 'image' && (
+                <img
+                    src={puzzle.data.imageUrl.trim().startsWith('http') ? puzzle.data.imageUrl : process.env.PUBLIC_URL + puzzle.data.imageUrl}
+                    alt="Puzzle"
+                    className="puzzle-image"
+                />
+            )}
+
             <form onSubmit={handleSubmit} className="puzzle-form">
                 <input
                     type="text"

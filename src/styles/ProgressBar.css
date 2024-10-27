@@ -1,0 +1,58 @@
+.progress-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-bottom: 20px;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 600px;
+    opacity: 0.6;
+}
+
+.progress-step {
+    display: flex;
+    align-items: center;
+}
+
+.circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 0 -4px;
+}
+
+.circle.completed {
+    background-color: green;
+}
+
+.line {
+    width: 36px;
+    height: 2px;
+    background-color: grey;
+    margin: 0 -4px;
+}
+
+.progress-step .completed + .line {
+    background-color: green;
+}
+
+@media (max-width: 600px) {
+    .progress-bar {
+        max-width: 300px;
+        gap: 5px;
+    }
+
+    .line {
+        width: 24px;
+        margin: 0 -2px;
+    }
+}

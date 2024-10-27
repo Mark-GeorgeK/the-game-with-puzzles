@@ -2,9 +2,10 @@ import React, { useContext, useEffect } from 'react';
 import { GameContext } from '../context/GameContext';
 import { useNavigate } from 'react-router-dom';
 import Puzzle from '../components/Puzzle';
+import ProgressBar from '../components/ProgressBar';
 import { db } from '../firebaseConfig';
 import { doc, updateDoc, increment } from 'firebase/firestore';
-import '../styles/PuzzlePage.css'
+import '../styles/PuzzlePage.css';
 
 const PuzzlePage = () => {
     const { teamToken, currentPuzzleIndex, setCurrentPuzzleIndex, shuffledPuzzles } = useContext(GameContext);
@@ -32,6 +33,7 @@ const PuzzlePage = () => {
 
     return (
         <div>
+            <ProgressBar totalPuzzles={shuffledPuzzles.length} currentPuzzleIndex={currentPuzzleIndex} />
             {currentPuzzle ? (
                 <Puzzle puzzleId={currentPuzzle.id} onPuzzleSolved={handleNextPuzzle} />
             ) : (
