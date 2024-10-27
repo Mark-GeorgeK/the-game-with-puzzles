@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import QrScanner from 'react-qr-scanner';
 import puzzles from '../services/puzzleService';
 
 const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
     const [answer, setAnswer] = useState('');
     const [isCorrect, setIsCorrect] = useState(false);
     const [randomImage, setRandomImage] = useState(null);
+    const [scanError, setScanError] = useState('');
 
     const puzzle = puzzles.find(p => p.id === puzzleId);
+    const isCameraSupported = navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
 
     useEffect(() => {
         if (puzzle.type === 'array') {
@@ -19,9 +22,12 @@ const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
         const correctAnswer = 
             puzzle.type === 'array' ? randomImage?.answer :
             puzzle.type === 'text' || puzzle.type === 'image' ? puzzle.data.answer :
+            puzzle.type === 'qr-code' ? puzzle.data.answer : 
             '';
 
-        setIsCorrect(input.toLowerCase() === correctAnswer.toLowerCase());
+        const isAnswerCorrect = input.toLowerCase() === correctAnswer.toLowerCase();
+        setIsCorrect(isAnswerCorrect);
+        setScanError(isAnswerCorrect || puzzle.type !== 'qr-code' ? '' : 'Try again..');
     };
 
     const handleSubmit = (e) => {
@@ -29,6 +35,7 @@ const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
         if (isCorrect) {
             onPuzzleSolved();
             setAnswer('');
+            setIsCorrect(false);
         }
     };
 
@@ -36,6 +43,19 @@ const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
         const input = e.target.value;
         setAnswer(input);
         handleCheckAnswer(input);
+    };
+
+    const handleScan = (data) => {
+        if (data) handleCheckAnswer(data.text);
+    };
+
+    const handleError = (err) => {
+        console.error(err);
+    };
+
+    const previewStyle = {
+        height: 240,
+        width: 320,
     };
 
     return (
@@ -59,20 +79,36 @@ const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
                     className="puzzle-image"
                 />
             )}
+            {puzzle.type === 'qr-code' && isCameraSupported ? (
+                <div className="qr-scanner-container">
+                    <QrScanner
+                        delay={300}
+                        style={previewStyle}
+                        onScan={handleScan}
+                        onError={handleError}
+                        facingMode="environment"
+                    />
+                    {scanError && <p className="error-message">{scanError}</p>}
+                </div>
+            ) : (
+                puzzle.type === 'qr-code' && <p>QR scanning is not supported on this device/browser.</p>
+            )}
 
             <form onSubmit={handleSubmit} className="puzzle-form">
-                <input
-                    type="text"
-                    value={answer}
-                    onChange={handleChange}
-                    placeholder="Enter your answer"
-                    className={`puzzle-input ${answer ? (isCorrect ? 'correct' : 'incorrect') : ''}`}
-                    style={{ margin: 0 }}
-                />
+                {puzzle.type !== 'qr-code' && (
+                    <input
+                        type="text"
+                        value={answer}
+                        onChange={handleChange}
+                        placeholder="Enter your answer"
+                        className={`puzzle-input ${answer ? (isCorrect ? 'correct' : 'incorrect') : ''}`}
+                        style={{ margin: 0 }}
+                    />
+                )}
                 <button
                     type="submit"
                     className="puzzle-button"
-                    disabled={!answer || !isCorrect}
+                    disabled={!isCorrect}
                     style={{ margin: 0 }}
                 >
                     Next Puzzle

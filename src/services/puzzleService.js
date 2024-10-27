@@ -13,6 +13,7 @@ const puzzles = [
   ]},
   { id: 2, type: 'text', data: { clue: 'A digit looks like the letter O', answer: '0' } },
   { id: 3, type: 'image', data: { imageUrl: 'https://media.baamboozle.com/uploads/images/613393/1669072385_21974.jpeg', answer: '1' } },
+  { id: 4, type: 'qr-code', data: { answer: '200' } }
 ];
 
 export default puzzles;
