@@ -8,6 +8,7 @@ export const GameProvider = ({ children }) => {
     const [currentPuzzleIndex, setCurrentPuzzleIndex] = useState(parseInt(localStorage.getItem('currentPuzzleIndex')) || 0);
     const [shuffledPuzzles, setShuffledPuzzles] = useState([]);
     const [teamName, setTeamName] = useState(localStorage.getItem('teamName') || '');
+    const [triggerQRCode, setTriggerQRCode] = useState(JSON.parse(localStorage.getItem('triggerQRCode')) || false);
 
     useEffect(() => {
         const savedPuzzles = localStorage.getItem('shuffledPuzzles');
@@ -15,7 +16,9 @@ export const GameProvider = ({ children }) => {
     }, []);
 
     const shufflePuzzles = () => {
-        const shuffled = [...puzzles].sort(() => Math.random() - 0.5);
+        const shuffled = [...puzzles.slice(4)].sort(() => Math.random() - 0.5);
+        shuffled.unshift(puzzles[2]);
+        shuffled.push(puzzles[3]);
         setShuffledPuzzles(shuffled);
         localStorage.setItem('shuffledPuzzles', JSON.stringify(shuffled));
     };
@@ -32,6 +35,10 @@ export const GameProvider = ({ children }) => {
         localStorage.setItem('teamName', teamName);
     }, [teamName]);
 
+    useEffect(() => {
+        localStorage.setItem('triggerQRCode', JSON.stringify(triggerQRCode));
+    }, [triggerQRCode]);
+
     return (
         <GameContext.Provider value={{
             teamName,
@@ -41,7 +48,9 @@ export const GameProvider = ({ children }) => {
             currentPuzzleIndex,
             setCurrentPuzzleIndex,
             shuffledPuzzles,
-            shufflePuzzles
+            shufflePuzzles,
+            triggerQRCode,
+            setTriggerQRCode
         }}>
             {children}
         </GameContext.Provider>

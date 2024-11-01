@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import QrScanner from 'react-qr-scanner';
+import { GameContext } from '../context/GameContext';
 import puzzles from '../services/puzzleService';
 
 const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
+    const { shuffledPuzzles, currentPuzzleIndex } = useContext(GameContext);
+
     const [answer, setAnswer] = useState('');
     const [isCorrect, setIsCorrect] = useState(false);
     const [randomImage, setRandomImage] = useState(null);
     const [scanError, setScanError] = useState('');
+    const [showScanner, setShowScanner] = useState(false);
 
     const puzzle = puzzles.find(p => p.id === puzzleId);
     const isCameraSupported = navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
@@ -36,6 +40,7 @@ const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
             onPuzzleSolved();
             setAnswer('');
             setIsCorrect(false);
+            setShowScanner(false);
         }
     };
 
@@ -79,31 +84,47 @@ const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
                     className="puzzle-image"
                 />
             )}
-            {puzzle.type === 'qr-code' && isCameraSupported ? (
-                <div className="qr-scanner-container">
-                    <QrScanner
-                        delay={300}
-                        style={previewStyle}
-                        onScan={handleScan}
-                        onError={handleError}
-                        facingMode="environment"
-                    />
-                    {scanError && <p className="error-message">{scanError}</p>}
-                </div>
-            ) : (
-                puzzle.type === 'qr-code' && <p>QR scanning is not supported on this device/browser.</p>
+            {puzzle.type === 'qr-code' && isCameraSupported && (
+                <>
+                    <p>Correct! Head to {shuffledPuzzles[currentPuzzleIndex].data.answer.toUpperCase()} station. Once you complete the station, you'll receive a QR code to scan and proceed.</p>
+                    {showScanner && (
+                        <div className="qr-scanner-container">
+                            <QrScanner
+                                delay={300}
+                                style={previewStyle}
+                                onScan={handleScan}
+                                onError={handleError}
+                                facingMode="environment"
+                            />
+                            {scanError && <p className="error-message">{scanError}</p>}
+                        </div>
+                    )}
+                    <button
+                        onClick={() => setShowScanner(!showScanner)}
+                        className="puzzle-button"
+                        style={{ marginBottom: '10px' }}
+                    >
+                        Scan QR Code
+                    </button>
+                </>
+            )}
+            {puzzle.type === 'qr-code' && !isCameraSupported && (
+                <p>QR scanning is not supported on this device/browser.</p>
             )}
 
             <form onSubmit={handleSubmit} className="puzzle-form">
                 {puzzle.type !== 'qr-code' && (
-                    <input
-                        type="text"
-                        value={answer}
-                        onChange={handleChange}
-                        placeholder="Enter your answer"
-                        className={`puzzle-input ${answer ? (isCorrect ? 'correct' : 'incorrect') : ''}`}
-                        style={{ margin: 0 }}
-                    />
+                    <>
+                        { puzzleId !== 2 && (<p>Guess the country?</p>)}
+                        <input
+                            type="text"
+                            value={answer}
+                            onChange={handleChange}
+                            placeholder="Enter your answer"
+                            className={`puzzle-input ${answer ? (isCorrect ? 'correct' : 'incorrect') : ''}`}
+                            style={{ margin: 0 }}
+                        />
+                    </>
                 )}
                 <button
                     type="submit"
