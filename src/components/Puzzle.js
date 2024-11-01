@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import QrScanner from 'react-qr-scanner';
+import { QrReader } from 'react-qr-reader';
 import { GameContext } from '../context/GameContext';
 import puzzles from '../services/puzzleService';
 
@@ -11,6 +11,7 @@ const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
     const [randomImage, setRandomImage] = useState(null);
     const [scanError, setScanError] = useState('');
     const [showScanner, setShowScanner] = useState(false);
+    const [facingMode, setFacingMode] = useState('environment');
 
     const puzzle = puzzles.find(p => p.id === puzzleId);
     const isCameraSupported = navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
@@ -20,7 +21,19 @@ const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
             const randomData = puzzle.data[Math.floor(Math.random() * puzzle.data.length)];
             setRandomImage(randomData);
         }
-    }, [puzzle]);
+
+        const checkCameraAvailability = async () => {
+            try {
+                await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+            } catch (error) {
+                setFacingMode('user');
+            }
+        };
+
+        if (isCameraSupported) {
+            checkCameraAvailability();
+        }
+    }, [puzzle, isCameraSupported]);
 
     const handleCheckAnswer = (input) => {
         const correctAnswer = 
@@ -29,9 +42,8 @@ const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
             puzzle.type === 'qr-code' ? puzzle.data.answer : 
             '';
 
-        const isAnswerCorrect = input.toLowerCase() === correctAnswer.toLowerCase();
+        const isAnswerCorrect = input.toLowerCase().trim() === correctAnswer.toLowerCase();
         setIsCorrect(isAnswerCorrect);
-        setScanError(isAnswerCorrect || puzzle.type !== 'qr-code' ? '' : 'Try again..');
     };
 
     const handleSubmit = (e) => {
@@ -51,17 +63,15 @@ const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
     };
 
     const handleScan = (data) => {
-        if (data) handleCheckAnswer(data.text);
+        if (data) handleCheckAnswer(data);
     };
 
     const handleError = (err) => {
-        console.error(err);
+        // console.error(err);
+        setScanError('Try again..');
     };
 
-    const previewStyle = {
-        height: 240,
-        width: 320,
-    };
+    if (facingMode) {};
 
     return (
         <div className="puzzle-container">
@@ -89,12 +99,17 @@ const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
                     <p>Correct! Head to {shuffledPuzzles[currentPuzzleIndex].data.answer.toUpperCase()} station. Once you complete the station, you'll receive a QR code to scan and proceed.</p>
                     {showScanner && (
                         <div className="qr-scanner-container">
-                            <QrScanner
+                            <QrReader
                                 delay={300}
-                                style={previewStyle}
-                                onScan={handleScan}
                                 onError={handleError}
-                                facingMode="environment"
+                                onScan={handleScan}
+                                style={{ width: '100%', height: '100%' }}
+                                constraints={{ facingMode: { exact: 'environment' } }}
+                                onResult={(result, error) => {
+                                    if (!!result) handleScan(result?.text);
+                                    if (!!error) handleError(error);
+                                }}
+                                // facingMode="environment"
                             />
                             {scanError && <p className="error-message">{scanError}</p>}
                         </div>
