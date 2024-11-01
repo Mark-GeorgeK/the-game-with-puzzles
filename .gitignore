@@ -23,6 +23,4 @@ yarn-error.log*
 .firebase/
 
 # assets
-**/*.pptx
-**/*.pdf
-**/*.xlsx
+/public/assets
