@@ -31,8 +31,8 @@ const PlayerForm = () => {
         <>
             {teamToken ? (
                 <div className="form-container">
-                    <span style={{fontFamily: 'monospace', fontSize: 'large'}}>{`Hey, ${teamName}`}</span>
-                    <p className="note">Hit that Play button to start your timer. Use your time wisely.</p>
+                    <span style={{fontFamily: 'monospace', fontSize: 'large'}}>{teamName}</span>
+                    <p className="note">Hit Play to start your journey.</p>
                     <button type="button" onClick={() => navigate('/puzzle')}>Play</button>
                 </div>
             ) : (

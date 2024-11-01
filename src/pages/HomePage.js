@@ -5,7 +5,7 @@ import '../styles/HomePage.css'
 function HomePage() {
   return (
     <div className="home-container">
-      <h2 className="title">Welcome to the Puzzles Game!</h2>
+      <h2 className="title">Together around the world!</h2>
       <PlayerForm />
     </div>
   );

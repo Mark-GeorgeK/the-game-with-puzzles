@@ -55,6 +55,11 @@
     opacity: 0.6;
 }
 
+.qr-scanner-container {
+    height: 100%;
+    width: 100%;
+}
+
 @media (max-width: 768px) {
     .puzzle-image {
         width: 90%;
