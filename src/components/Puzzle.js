@@ -98,8 +98,7 @@ const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
             )}
             {puzzle.type === 'qr-code' && isCameraSupported && (
                 <>
-                    <p>Correct! Head to {shuffledPuzzles[currentPuzzleIndex].data.answer.toUpperCase()} station{shuffledPuzzles[currentPuzzleIndex].data.rooms ?
-                    ' at ' + shuffledPuzzles[currentPuzzleIndex].data.rooms : ''}. Once you complete the station, you'll receive a QR code to scan and proceed.</p>
+                    <p>Correct! Head to {shuffledPuzzles[currentPuzzleIndex].data.answer.toUpperCase()} station. Once you complete the station, you'll receive a QR code to scan and proceed.</p>
                     {showScanner && (
                         <div className="qr-scanner-container">
                             <QrReader
