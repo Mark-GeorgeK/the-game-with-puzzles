@@ -4,7 +4,7 @@ import { GameContext } from '../context/GameContext';
 import puzzles from '../services/puzzleService';
 
 const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
-    const { shuffledPuzzles, currentPuzzleIndex } = useContext(GameContext);
+    const { shuffledPuzzles, currentPuzzleIndex, setTriggerQRCode } = useContext(GameContext);
 
     const [answer, setAnswer] = useState('');
     const [isCorrect, setIsCorrect] = useState(false);
@@ -44,6 +44,7 @@ const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
 
         const isAnswerCorrect = input.toLowerCase().trim() === correctAnswer.toLowerCase();
         setIsCorrect(isAnswerCorrect);
+        if (isAnswerCorrect && puzzle.type === 'qr-code') setTriggerQRCode(false);
         if (isAnswerCorrect) setScanError('');
     };
 

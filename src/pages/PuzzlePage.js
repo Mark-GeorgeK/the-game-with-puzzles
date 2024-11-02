@@ -22,7 +22,6 @@ const PuzzlePage = () => {
         const nextIndex = currentPuzzleIndex + 1;
 
         if (triggerQRCode) {
-            setTriggerQRCode(false);
             setCurrentPuzzle(puzzles[shuffledPuzzles[currentPuzzleIndex].next]);
         } else {
             const teamRef = doc(db, 'teams', teamToken);
