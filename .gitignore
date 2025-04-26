@@ -24,3 +24,6 @@ yarn-error.log*
 
 # assets
 /public/assets
+
+# configs
+src/firebaseConfig.js
