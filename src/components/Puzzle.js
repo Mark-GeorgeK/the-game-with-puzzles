@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { QrReader } from 'react-qr-reader';
 import { GameContext } from '../context/GameContext';
 import puzzles from '../services/puzzleService';
@@ -15,7 +15,6 @@ const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
 
     const puzzle = puzzles.find(p => p.id === puzzleId);
     const isCameraSupported = navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
-
     useEffect(() => {
         if (puzzle.type === 'array') {
             const randomData = puzzle.data[Math.floor(Math.random() * puzzle.data.length)];
@@ -44,20 +43,26 @@ const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
 
         const isAnswerCorrect = input.toLowerCase().trim() === correctAnswer.toLowerCase();
         setIsCorrect(isAnswerCorrect);
-        if (isAnswerCorrect && puzzle.type === 'qr-code') setTriggerQRCode(false);
         if (isAnswerCorrect) setScanError('');
+        if (isAnswerCorrect && puzzle.type === 'qr-code') setTriggerQRCode(false);
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = useCallback((e) => {
+        if (e) e.preventDefault();
         if (isCorrect) {
             onPuzzleSolved();
             setAnswer('');
             setIsCorrect(false);
             setShowScanner(false);
         }
-    };
+    }, [isCorrect, onPuzzleSolved, setAnswer, setIsCorrect, setShowScanner]);
 
+    useEffect(() => {
+        if (isCorrect && puzzle.type === 'qr-code' && showScanner) {
+            handleSubmit(null);
+        }
+    }, [handleSubmit, isCorrect, puzzle.type, showScanner]);
+    
     const handleChange = (e) => {
         const input = e.target.value;
         setAnswer(input);
@@ -113,7 +118,7 @@ const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
                                 }}
                                 // facingMode="environment"
                             />
-                            {scanError && <p className="error-message">{scanError}</p>}
+                            {/* {scanError && <p className="error-message">{scanError}</p>} */}
                         </div>
                     )}
                     <button
@@ -141,16 +146,16 @@ const Puzzle = ({ puzzleId, onPuzzleSolved }) => {
                             className={`puzzle-input ${answer ? (isCorrect ? 'correct' : 'incorrect') : ''}`}
                             style={{ margin: 0 }}
                         />
+                        <button
+                            type="submit"
+                            className="puzzle-button"
+                            disabled={!isCorrect}
+                            style={{ margin: 0 }}
+                            >
+                            Next Puzzle
+                        </button>
                     </>
                 )}
-                <button
-                    type="submit"
-                    className="puzzle-button"
-                    disabled={!isCorrect}
-                    style={{ margin: 0 }}
-                >
-                    Next Puzzle
-                </button>
             </form>
         </div>
     );
