@@ -24,10 +24,10 @@ const PuzzlePage = () => {
         if (triggerQRCode) {
             setCurrentPuzzle(puzzles[shuffledPuzzles[currentPuzzleIndex].next]);
         } else {
-            const teamRef = doc(db, 'teams', teamToken);
-            await updateDoc(teamRef, {
-                puzzlesSolved: increment(1)
-            });
+            // const teamRef = doc(db, 'teams', teamToken);
+            // await updateDoc(teamRef, {
+            //     puzzlesSolved: increment(1)
+            // });
 
             setTriggerQRCode(true);
             setCurrentPuzzle(shuffledPuzzles[nextIndex]);

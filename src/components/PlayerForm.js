@@ -18,13 +18,13 @@ const PlayerForm = () => {
         setTeamName(`${player1} - ${player2}`);
         shufflePuzzles();
 
-        await setDoc(doc(db, 'teams', generatedToken), {
-            player1,
-            player2,
-            generatedToken,
-            puzzlesSolved: 0,
-            timestamp: serverTimestamp()
-        });
+        // await setDoc(doc(db, 'teams', generatedToken), {
+        //     player1,
+        //     player2,
+        //     generatedToken,
+        //     puzzlesSolved: 0,
+        //     timestamp: serverTimestamp()
+        // });
     };
 
     return (
